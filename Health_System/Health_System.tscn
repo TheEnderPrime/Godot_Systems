@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://1056m78g1lrp"]
+
+[ext_resource type="Script" uid="uid://0ydokrwudvap" path="res://Health_System.gd" id="1_rjj5s"]
+
+[node name="Health_System" type="Node"]
+script = ExtResource("1_rjj5s")
+healthAmountMax = 10
+
+[node name="DOT_Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="DOT_Timer" to="." method="_on_dot_timer_timeout"]
