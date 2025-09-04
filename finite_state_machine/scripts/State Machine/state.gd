@@ -1,36 +1,47 @@
-@abstract class_name State
+@abstract class_name State extends Resource
 
 var Action: Dictionary = {}
-@abstract func on_enter()
-@abstract func on_update(_delta: float)
-@abstract func on_exit()
+@abstract func get_state_name() -> String
+@abstract func enter()
+@abstract func update(_delta: float, stateMachine)
+@abstract func exit()
 
-class IdleState extends State:
-	func on_enter():
+class Idle_State extends State:
+	func get_state_name() -> String:
+		return "Idle_State"
+	func enter():
 		print("Enter Idle State")
 	#
-	func on_update(_delta):
+	func update(_delta, stateMachine):
 		print ("Update Idle State")
-	#
-	func on_exit():
+		stateMachine.change_state(Chase_State)
+		
+	func exit():
 		print("Exit Idle State")
 
-class WanderState extends State:
-	func on_enter():
+class Wander_State extends State:
+	func get_state_name() -> String:
+		return "Wander_State"
+		
+	func enter():
 		print("Enter Wander State")
-	#
-	func on_update(_delta):
+	
+	func update(_delta, stateMachine):
 		print ("Update Wander State")
-	#
-	func on_exit():
+		stateMachine.change_state(Idle_State)
+	func exit():
 		print("Exit Wander State")
 
-class ChaseState extends State:
-	func on_enter():
+class Chase_State extends State:
+	func get_state_name() -> String:
+		return "Chase_State"
+		
+	func enter():
 		print("Enter Chase State")
 	#
-	func on_update(_delta):
+	func update(_delta, stateMachine): 
 		print ("Update Chase State")
+		stateMachine.change_state(Wander_State)
 	#
-	func on_exit():
+	func exit():
 		print("Exit Chase State")

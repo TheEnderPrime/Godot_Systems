@@ -1,15 +1,17 @@
 extends Node
 
-enum States {IDLE, WANDER, CHASE, ATTACK}
+var 	States = load("res://scripts/State Machine/state.gd")
 
 var currentState : State
 
-func on_ready():
-	currentState = States.IDLE
-
+func _ready():
+	currentState = States.Idle_State.new()
 
 
 func _process(delta):
 	if currentState:
-		currentState.on_update(delta)
+		currentState.update(delta, self)
+		print(currentState.get_state_name())
  
+func change_state(_state: State):
+	currentState = _state
