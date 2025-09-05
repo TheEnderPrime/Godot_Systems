@@ -122,7 +122,7 @@ animations = [{
 size = Vector2(10, 11)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
-radius = 46.0
+radius = 59.135437
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_4ra3w")
@@ -140,6 +140,11 @@ shape = SubResource("RectangleShape2D_s1ycm")
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_md0e3")
 
-[node name="LookCollider" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6)
+[node name="Vision" type="Area2D" parent="."]
+position = Vector2(0, -5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
 shape = SubResource("CircleShape2D_4ra3w")
+
+[connection signal="body_entered" from="Vision" to="." method="_on_vision_body_entered"]
+[connection signal="body_exited" from="Vision" to="." method="_on_vision_body_exited"]

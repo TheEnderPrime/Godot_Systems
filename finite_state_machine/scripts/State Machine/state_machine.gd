@@ -12,7 +12,6 @@ func _ready():
 func _process(delta):
 	if currentState:
 		currentState.update(delta, self)
-		#currentState = change_state(States.stateEnum.WANDER)
 		
 func _physics_process(delta: float) -> void:
 	if currentState:

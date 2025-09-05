@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var state_machine = $StateMachine
 
 var moveSpeed := 20
 
@@ -27,3 +28,15 @@ func set_speed(speed: int) -> void:
 
 func get_speed() -> int:
 	return moveSpeed
+
+
+func _on_vision_body_entered(body: Node2D) -> void:
+	if body != self:
+		print("Entered Body")
+		state_machine.change_state(State.stateEnum.CHASE)
+
+
+func _on_vision_body_exited(body: Node2D) -> void:
+	if body != self:
+		print("Exitted Body")
+		state_machine.change_state(State.stateEnum.IDLE)

@@ -27,9 +27,8 @@ class Idle_State extends State:
 		print("Enter Idle State")
 	
 	func update(_delta, stateMachine):
-		print ("Update Idle State")
-		stateMachine.change_state(stateEnum.CHASE)
-		
+		pass
+				
 	func physics_update(_delta, parent):
 		pass
 		
@@ -52,7 +51,6 @@ class Wander_State extends State:
 		randomize_wander()
 	
 	func update(_delta, stateMachine):
-		print ("Update Wander State")
 		if wander_time > 0:
 			wander_time -= _delta
 		else:
@@ -73,8 +71,7 @@ class Chase_State extends State:
 		print("Enter Chase State")
 	
 	func update(_delta, stateMachine): 
-		print ("Update Chase State")
-		stateMachine.change_state(stateEnum.WANDER)	
+		pass
 	
 	func physics_update(_delta, parent):
 		pass

@@ -6,14 +6,15 @@
 
 [node name="Game" type="Node2D"]
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1, -1)
+zoom = Vector2(2, 2)
+
 [node name="Player" parent="." instance=ExtResource("1_yqjtg")]
-position = Vector2(-68, -42)
+position = Vector2(-97, -1)
 motion_mode = 1
 script = ExtResource("2_lbhrr")
 friction = 1.0
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(2, 2)
-
 [node name="Enemy" parent="." instance=ExtResource("2_lnu2h")]
-position = Vector2(45, -46)
+position = Vector2(85, -15)
