@@ -171,13 +171,13 @@ animations = [{
 radius = 5.0
 
 [node name="Player" type="CharacterBody2D"]
-position = Vector2(0, -12)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_4ni07")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 7)
+position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_l71n6")
