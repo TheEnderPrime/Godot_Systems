@@ -12,17 +12,14 @@ func get_state(_stateEnum) -> State:
 			return State.Wander_State.new()
 		_:
 			return State.Idle_State.new()
-@abstract func get_state_name() -> String
 @abstract func enter(stateMachine)
 @abstract func update(_delta: float, stateMachine)
 @abstract func physics_update(_delta: float, parent: Node)
-@abstract func exit()
+@abstract func exit(parent: Node)
+@abstract func get_state_name() -> String
 
 
 class Idle_State extends State:
-	func get_state_name() -> String:
-		return "Idle_State"
-		
 	func enter(stateMachine):
 		print("Enter Idle State")
 	
@@ -32,22 +29,19 @@ class Idle_State extends State:
 	func physics_update(_delta, parent):
 		pass
 		
-	func exit():
+	func exit(parent):
 		print("Exit Idle State")
+
+	func get_state_name() -> String:
+		return "Idle_State"
 
 
 class Wander_State extends State:
 	var move_direction : Vector2
 	var wander_time : float
-	
-	func get_state_name() -> String:
-		return "Wander_State"
-	
-	func randomize_wander():
-		move_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
-		wander_time = randf_range(1, 3)
 				
 	func enter(stateMachine):
+		print("Enter Wander State")
 		randomize_wander()
 	
 	func update(_delta, stateMachine):
@@ -57,16 +51,22 @@ class Wander_State extends State:
 			randomize_wander()
 	
 	func physics_update(_delta, parent):
-		parent.velocity = move_direction * parent.get_speed()
+		if move_direction != null:
+			parent.velocity = move_direction * parent.get_speed()
 	
-	func exit():
+	func exit(parent):
 		print("Exit Wander State")
+		parent.velocity = Vector2.ZERO
+		
+	func get_state_name() -> String:
+		return "Wander_State"
+	
+	func randomize_wander():
+		move_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+		wander_time = randf_range(1, 3)
 
 
 class Chase_State extends State:
-	func get_state_name() -> String:
-		return "Chase_State"
-		
 	func enter(stateMachine):
 		print("Enter Chase State")
 		target = stateMachine.target
@@ -76,8 +76,46 @@ class Chase_State extends State:
 	
 	func physics_update(_delta, parent):
 		var direction = target.global_position - parent.global_position
+		parent.velocity = direction.normalized() * parent.moveSpeed
 		
-		parent.velocity = direction * parent.moveSpeed
-		
-	func exit():
+	func exit(parent):
 		print("Exit Chase State")
+		parent.velocity = Vector2.ZERO
+
+	func get_state_name() -> String:
+		return "Chase_State"
+
+
+class Damaged_State extends State:
+	func enter(stateMachine):
+		print("Enter Chase State")
+	
+	func update(_delta, stateMachine): 
+		pass
+	
+	func physics_update(_delta, parent):
+		pass
+		
+	func exit(parent):
+		print("Exit Chase State")
+
+	func get_state_name() -> String:
+		return "Chase_State"
+
+
+
+#class Default_State extends State:
+	#func enter(stateMachine):
+		#print("Enter Default State")
+	#
+	#func update(_delta, stateMachine): 
+		#pass
+	#
+	#func physics_update(_delta, parent):
+		#pass
+		#
+	#func exit(parent):
+		#print("Exit Default State")
+#
+	#func get_state_name() -> String:
+		#return "Default_State"
