@@ -1,6 +1,6 @@
 @abstract class_name State extends Resource
 
-var Action: Dictionary = {}
+var target : CharacterBody2D
 enum stateEnum {IDLE, CHASE, WANDER}
 func get_state(_stateEnum) -> State:
 	match _stateEnum:
@@ -13,7 +13,7 @@ func get_state(_stateEnum) -> State:
 		_:
 			return State.Idle_State.new()
 @abstract func get_state_name() -> String
-@abstract func enter()
+@abstract func enter(stateMachine)
 @abstract func update(_delta: float, stateMachine)
 @abstract func physics_update(_delta: float, parent: Node)
 @abstract func exit()
@@ -23,7 +23,7 @@ class Idle_State extends State:
 	func get_state_name() -> String:
 		return "Idle_State"
 		
-	func enter():
+	func enter(stateMachine):
 		print("Enter Idle State")
 	
 	func update(_delta, stateMachine):
@@ -47,7 +47,7 @@ class Wander_State extends State:
 		move_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 		wander_time = randf_range(1, 3)
 				
-	func enter():
+	func enter(stateMachine):
 		randomize_wander()
 	
 	func update(_delta, stateMachine):
@@ -67,14 +67,17 @@ class Chase_State extends State:
 	func get_state_name() -> String:
 		return "Chase_State"
 		
-	func enter():
+	func enter(stateMachine):
 		print("Enter Chase State")
+		target = stateMachine.target
 	
 	func update(_delta, stateMachine): 
 		pass
 	
 	func physics_update(_delta, parent):
-		pass
+		var direction = target.global_position - parent.global_position
+		
+		parent.velocity = direction * parent.moveSpeed
 		
 	func exit():
 		print("Exit Chase State")
