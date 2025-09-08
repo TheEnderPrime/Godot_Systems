@@ -27,7 +27,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = velocity.lerp(Vector2.ZERO, friction)
 
-	move_and_slide()
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		print("Collision: ", collision.get_collider().name)
 
 func get_input():
 	var input = Vector2()

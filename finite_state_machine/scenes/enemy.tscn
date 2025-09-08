@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://caawqyrn5o6h"]
+[gd_scene load_steps=21 format=3 uid="uid://caawqyrn5o6h"]
 
 [ext_resource type="Script" uid="uid://36ael1h5y58" path="res://scenes/enemy.gd" id="1_4ra3w"]
-[ext_resource type="Texture2D" uid="uid://de8lypqapcgdg" path="res://assets/slime_green.png" id="1_7p1mj"]
-[ext_resource type="Script" uid="uid://y6dcp1uptrdy" path="res://scripts/State Machine/state_machine.gd" id="2_md0e3"]
+[ext_resource type="Texture2D" uid="uid://de8lypqapcgdg" path="res://assets/sprites/slime_green.png" id="1_7p1mj"]
+[ext_resource type="PackedScene" uid="uid://cbyge5ncump6b" path="res://scenes/state_machine.tscn" id="3_4ra3w"]
+[ext_resource type="FontFile" uid="uid://cv7mtchuhdkv8" path="res://assets/fonts/PixelOperator8.ttf" id="3_5uy6h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_md0e3"]
 atlas = ExtResource("1_7p1mj")
@@ -59,12 +60,12 @@ region = Rect2(72, 0, 24, 24)
 [sub_resource type="SpriteFrames" id="SpriteFrames_g0wcc"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 100.0,
 "texture": SubResource("AtlasTexture_md0e3")
 }],
-"loop": false,
+"loop": true,
 "name": &"damaged",
-"speed": 10.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -79,7 +80,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xwavj")
 }],
-"loop": true,
+"loop": false,
 "name": &"death",
 "speed": 10.0
 }, {
@@ -113,16 +114,16 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_j0cyh")
 }],
-"loop": true,
+"loop": false,
 "name": &"spawn",
 "speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s1ycm"]
-size = Vector2(10, 11)
+size = Vector2(10, 12)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
-radius = 59.135437
+radius = 84.0238
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_4ra3w")
@@ -130,15 +131,28 @@ script = ExtResource("1_4ra3w")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_g0wcc")
-animation = &"damaged"
-autoplay = "idle"
+animation = &"spawn"
+autoplay = "spawn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_s1ycm")
 
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource("2_md0e3")
+[node name="StateLabel" type="Label" parent="."]
+anchors_preset = -1
+anchor_top = -0.008
+anchor_bottom = -0.008
+offset_left = -50.0
+offset_top = -35.0
+offset_right = 51.0
+offset_bottom = -12.0
+theme_override_fonts/font = ExtResource("3_5uy6h")
+theme_override_font_sizes/font_size = 8
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StateMachine" parent="." instance=ExtResource("3_4ra3w")]
 
 [node name="Vision" type="Area2D" parent="."]
 position = Vector2(0, -5)
@@ -150,6 +164,14 @@ shape = SubResource("CircleShape2D_4ra3w")
 wait_time = 3.0
 one_shot = true
 
+[node name="DeathTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="WanderTimer" type="Timer" parent="."]
+wait_time = 8.0
+
 [connection signal="body_entered" from="Vision" to="." method="_on_vision_body_entered"]
 [connection signal="body_exited" from="Vision" to="." method="_on_vision_body_exited"]
 [connection signal="timeout" from="IdleTimer" to="." method="_on_idle_timer_timeout"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
+[connection signal="timeout" from="WanderTimer" to="." method="_on_wander_timer_timeout"]

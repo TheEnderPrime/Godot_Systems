@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d10adxyakjymk"]
+
+[ext_resource type="Script" uid="uid://bo4d5u1d43hn8" path="res://scripts/waypoints.gd" id="1_1qoi2"]
+
+[node name="Waypoints" type="Node"]
+script = ExtResource("1_1qoi2")

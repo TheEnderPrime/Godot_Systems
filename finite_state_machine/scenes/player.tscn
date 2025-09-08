@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://gm2gl2p8lqw6"]
 
-[ext_resource type="Texture2D" uid="uid://clqvmnw1um5ha" path="res://assets/knight.png" id="1_3vyb7"]
+[ext_resource type="Texture2D" uid="uid://clqvmnw1um5ha" path="res://assets/sprites/knight.png" id="1_3vyb7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
 atlas = ExtResource("1_3vyb7")
@@ -167,8 +167,9 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_l71n6"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3vyb7"]
 radius = 5.0
+height = 16.0
 
 [node name="Player" type="CharacterBody2D"]
 
@@ -179,5 +180,5 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -5)
-shape = SubResource("CircleShape2D_l71n6")
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_3vyb7")
