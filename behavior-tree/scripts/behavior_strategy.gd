@@ -1,16 +1,51 @@
-@abstract class_name BehaviorStrategy
+@abstract class_name BehaviorStrategy extends Resource
 
-var behaviorContext : Behavior
-@abstract func process() -> bool
-
-
-class do_a_thing extends BehaviorStrategy:
-	func process() -> bool:
-		print("did a thing")
-		return true
+@abstract func process() -> Behavior.behaviorState
+@abstract func reset() -> void
 
 
-class stop_a_thing extends BehaviorStrategy:
-	func process() -> bool:
+class IdleStrategy extends BehaviorStrategy:
+	func _init ():
+		pass
+		
+	func process() -> Behavior.behaviorState:
+		print("Idling")
+		return Behavior.behaviorState.SUCCESS
+
+	func reset() -> void:
+		pass
+
+
+class WanderStrategy extends BehaviorStrategy:
+	func _init ():
+		pass
+		
+	func process() -> Behavior.behaviorState:
+		print("HEY WANDER")
+		return Behavior.behaviorState.SUCCESS
+		
+	func reset() -> void:
+		pass
+
+class ChaseStrategy extends BehaviorStrategy:
+	func _init ():
+		pass
+		
+	func process() -> Behavior.behaviorState:
 		print("HEY STOP")
-		return false
+		return Behavior.behaviorState.FAILURE
+		
+	func reset() -> void:
+		pass
+
+
+class PatrolStrategy extends BehaviorStrategy:
+	func _init ():
+		pass
+		
+	func process() -> Behavior.behaviorState:
+		print("HEY STOP")
+		return Behavior.behaviorState.FAILURE
+		
+	func reset() -> void:
+		pass
