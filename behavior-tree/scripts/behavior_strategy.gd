@@ -10,11 +10,10 @@ class IdleStrategy extends BehaviorStrategy:
 		
 	func process() -> Behavior.behaviorState:
 		print("Idling")
-		return Behavior.behaviorState.SUCCESS
+		return Behavior.behaviorState.FAILURE
 
 	func reset() -> void:
 		pass
-
 
 class WanderStrategy extends BehaviorStrategy:
 	func _init ():
@@ -28,16 +27,31 @@ class WanderStrategy extends BehaviorStrategy:
 		pass
 
 class ChaseStrategy extends BehaviorStrategy:
-	func _init ():
-		pass
+	var chaseTime: int
+	var chaseBark: String
+	
+	func _init (_chaseTime: int, _chaseBark: String):
+		chaseTime = _chaseTime
+		chaseBark = _chaseBark
 		
 	func process() -> Behavior.behaviorState:
-		print("HEY STOP")
+		print("Chase Strategy - Process")
+		while chaseTime >= 0:
+			print("Chase Strategy - Chasing (" + str(chaseTime) + ")")
+			#if chaseTime > 0:
+				#print("Chase Strategy - " + chaseBark)
+				#return Behavior.behaviorState.RUNNING
+			if chaseTime == 0: 
+				print("Chase Strategy - GOT EM")
+				return Behavior.behaviorState.SUCCESS
+			chaseTime -= 1
+		print("Chase Strategy - FAILURE")
 		return Behavior.behaviorState.FAILURE
 		
 	func reset() -> void:
+		chaseTime = 0
+		chaseBark = ""
 		pass
-
 
 class PatrolStrategy extends BehaviorStrategy:
 	func _init ():
