@@ -67,14 +67,14 @@ class RandomSequenceBehavior extends SequenceBehavior:
 	
 	func _init(_name: String, _sequence : Array):
 		super(_name, _sequence)
+		
+	func process():
+		print("Enter Random Sequence: " + name)
 		for i : int in sequence.size():
 			var random = sequence.pick_random()
 			randomSequence.append(random)
 			sequence.erase(random)
 		sequence = randomSequence
-		
-	func process():
-		print("Enter Random Sequence: " + name)
 		return super()
 		#for i : int in sequence.size():
 			#var random = sequence.pick_random()
@@ -94,7 +94,7 @@ class SelectorBehavior extends Behavior:
 		selection = _selection
 		
 	func process():
-		print("Enter Selection: " + name)
+		print("Enter Selector: " + name)
 		for behavior : Behavior in selection:
 			match behavior.process():
 				behaviorState.SUCCESS:
@@ -110,21 +110,15 @@ class RandomSelectorBehavior extends SelectorBehavior:
 	
 	func _init(_name: String, _selection : Array):
 		selection = _selection
+		
+	func process():
+		print("Enter Random Selector: " + name)
 		for i : int in selection.size():
 			var random = selection.pick_random()
 			randomSelection.append(random)
 			selection.erase(random)
 		selection = randomSelection
-		
-	func process():
-		print("Enter Random Selector: " + name)
 		return super()
-		#for i : int in selector.size():
-			#var random = selector.pick_random()
-			#randomSelector.append(random)
-			#selector.erase(random)
-		#
-		#Behavior.SelectorBehavior.new("RandomSelectorBehavior", randomSelector).process()
 
 # TODO add priority to all behaviors
 # sorts children based on behavior priority then runs as SelectionBehavior

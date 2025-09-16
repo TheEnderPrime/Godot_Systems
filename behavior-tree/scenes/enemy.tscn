@@ -1,7 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://caawqyrn5o6h"]
+[gd_scene load_steps=20 format=3 uid="uid://caawqyrn5o6h"]
 
+[ext_resource type="Script" uid="uid://bx4uhcme4hvvs" path="res://scripts/enemy.gd" id="1_5uy6h"]
 [ext_resource type="Texture2D" uid="uid://de8lypqapcgdg" path="res://assets/slime_green.png" id="1_7p1mj"]
 [ext_resource type="PackedScene" uid="uid://pw7l100drpht" path="res://scenes/behavior_tree.tscn" id="2_md0e3"]
+[ext_resource type="PackedScene" uid="uid://bnidm5bes546m" path="res://scenes/waypoints.tscn" id="3_4ra3w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_md0e3"]
 atlas = ExtResource("1_7p1mj")
@@ -120,16 +122,20 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s1ycm"]
 size = Vector2(10, 11)
 
-[node name="Enemy" type="CharacterBody2D"]
-position = Vector2(0, -12)
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("patrolWaypoints")]
+script = ExtResource("1_5uy6h")
+patrolWaypoints = NodePath("Waypoints")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_g0wcc")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 6.5)
+position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_s1ycm")
 
 [node name="BehaviorTree" parent="." instance=ExtResource("2_md0e3")]
+
+[node name="Waypoints" parent="." instance=ExtResource("3_4ra3w")]
