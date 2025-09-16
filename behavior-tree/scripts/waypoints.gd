@@ -19,7 +19,7 @@ var active_point_index := 0
 func get_start_node() -> Node:
 	print(get_children())
 	if get_children() == []:
-		print("NO WAYPOINTS AVAILABLE. ADDING DEFAULT NODE AT AGENT LOCATION")
+		print("NO WAYPOINTS AVAILABLE. ADDING DEFAULT WAYPOINT AT AGENT LOCATION")
 		var marker2D = Marker2D.new()
 		var parent = get_node("../Waypoints")
 		marker2D.global_position = parent.get_parent().global_position

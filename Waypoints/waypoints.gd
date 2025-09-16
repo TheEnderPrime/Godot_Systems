@@ -17,6 +17,13 @@ extends Node
 var active_point_index := 0
 
 func get_start_node() -> Node:
+	print(get_children())
+	if get_children() == []:
+		print("NO WAYPOINTS AVAILABLE. ADDING DEFAULT WAYPOINT AT AGENT LOCATION")
+		var marker2D = Marker2D.new()
+		var parent = get_node("../Waypoints")
+		marker2D.global_position = parent.get_parent().global_position
+		parent.add_child(marker2D)
 	return get_child(0)
 	
 func get_current_point_node() -> Node:
