@@ -27,11 +27,11 @@ class LeafBehavior extends Behavior:
 		behaviorStrategy = _behaviorStrategy
 
 	func process() -> behaviorState:
-		print("Enter Leaf: " + name)
+		print(" - Enter Leaf: " + name)
 		return behaviorStrategy.process()
 
 	func reset() -> void:
-		print("Leaf Reset")
+		print(" - Leaf Reset")
 		behaviorStrategy.reset()
 
 # process in order, if all pass return success, if one fails immediately return failure
@@ -45,7 +45,7 @@ class SequenceBehavior extends Behavior:
 		sequence = _sequence
 		
 	func process() -> behaviorState:
-		print("Enter Sequence (" + name + ") : " + (behaviorState.keys())[result])
+		print(" - Enter Sequence (" + name + ") : " + (behaviorState.keys())[result])
 		for behavior: Behavior in sequence:
 			match behavior.process():
 				behaviorState.RUNNING:
@@ -69,7 +69,7 @@ class RandomSequenceBehavior extends SequenceBehavior:
 		super(_name, _sequence)
 		
 	func process():
-		print("Enter Random Sequence: " + name)
+		print(" - Enter Random Sequence: " + name)
 		for i : int in sequence.size():
 			var random = sequence.pick_random()
 			randomSequence.append(random)
@@ -94,7 +94,7 @@ class SelectorBehavior extends Behavior:
 		selection = _selection
 		
 	func process():
-		print("Enter Selector: " + name)
+		print(" - Enter Selector: " + name)
 		for behavior : Behavior in selection:
 			match behavior.process():
 				behaviorState.SUCCESS:
@@ -109,10 +109,11 @@ class RandomSelectorBehavior extends SelectorBehavior:
 	var randomSelection : Array
 	
 	func _init(_name: String, _selection : Array):
+		super(_name, _selection)
 		selection = _selection
 		
 	func process():
-		print("Enter Random Selector: " + name)
+		print(" - Enter Random Selector: " + name)
 		for i : int in selection.size():
 			var random = selection.pick_random()
 			randomSelection.append(random)
@@ -135,7 +136,7 @@ class InverterBehavior extends Behavior:
 		result = _result
 	
 	func process():
-		print("Enter Inverter : " + name)
+		print(" - Enter Inverter : " + name)
 		if result == behaviorState.SUCCESS:
 			return behaviorState.FAILURE
 		elif result == behaviorState.FAILURE:
@@ -150,7 +151,7 @@ class SucceederBehavior extends Behavior:
 		super(_name)
 		
 	func process():
-		print("Enter Succeeder: " + name)
+		print(" - Enter Succeeder: " + name)
 		return behaviorState.SUCCESS
 
 # repeats behavior infinitely OR a given number of times
@@ -165,7 +166,7 @@ class RepeaterBehavior extends Behavior:
 		behaviorStrategy = _behaviorStrategy
 		
 	func process():
-		print("Enter Repeater: " + name)
+		print(" - Enter Repeater: " + name)
 		while numOfRepeats > 0:
 			behaviorStrategy.process()
 			if numOfRepeats != -1:
@@ -183,7 +184,7 @@ class RepeatUntilFailBehavior extends Behavior:
 		behaviorStrategy = _behaviorStrategy
 		
 	func process():
-		print("Enter Repeat Until Failure: " + name)
+		print(" - Enter Repeat Until Failure: " + name)
 		while result != behaviorState.FAILURE: 
 			behaviorStrategy.process()	
 		return behaviorState.SUCCESS

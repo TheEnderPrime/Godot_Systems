@@ -55,7 +55,7 @@ class WanderStrategy extends BehaviorStrategy:
 		
 	func randomize_wander():
 		moveDirection = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
-		wanderTimer.wait_time = randf_range(1, 3)
+		wanderTimer.wait_time = randf_range(5, 10)
 		
 	func on_wander_timeout() -> Behavior.behaviorState:
 		print("WANDER TIMEOUT")
@@ -105,7 +105,7 @@ class PatrolStrategy extends BehaviorStrategy:
 	func process() -> Behavior.behaviorState:
 		print("Patrol Strategy")
 		if(target == null):
-			print("NO WAYPOINTS AVAILABLE")
+			print("  - NO WAYPOINTS AVAILABLE")
 			return Behavior.behaviorState.FAILURE
 			
 		var direction = target.global_position - agent.global_position
@@ -135,9 +135,9 @@ class isObjectNearbyStrategy extends BehaviorStrategy:
 		
 	func process():
 		if agent.global_position.distance_to(target.global_position) < detectionRange:
-			print("Object IS Nearby: " + target.name + " --- " + str(agent.global_position.distance_to(target.global_position)) + " < " + str(detectionRange))
+			print("  - Object IS Nearby: " + target.name + " --- " + str(agent.global_position.distance_to(target.global_position)) + " < " + str(detectionRange))
 			return Behavior.behaviorState.SUCCESS
-		print("Object NOT Nearby: " + target.name)
+		print("  - Object NOT Nearby: " + target.name)
 		return Behavior.behaviorState.FAILURE
 	
 	func reset():
