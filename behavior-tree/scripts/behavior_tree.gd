@@ -15,8 +15,8 @@ func _ready() -> void:
 	var chaseBehavior: Behavior = Behavior.LeafBehavior.new("ChaseLeaf", BehaviorStrategy.ChaseStrategy.new(agent, player, agent.moveSpeed, agent.attackRange))
 	
 	var randomIdleMovementArray: Array = [
-		idleBehavior,
-		wanderBehavior,
+		#idleBehavior,
+		#wanderBehavior,
 		patrolBehavior
 	]
 	var randomIdleMovementSelector: Behavior = Behavior.RandomSelectorBehavior.new("randomIdleMovementSelector",randomIdleMovementArray)
@@ -38,14 +38,6 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	behaviorTree.process()
-	#match behaviorTree.process():
-		#Behavior.behaviorState.SUCCESS:
-			#print("Tree Complete!")
-			#queue_free()
-		#Behavior.behaviorState.FAILURE:
-			#print("Tree FAILURE")
-			#queue_free()
-
 
 class BehaviorTree extends Behavior:
 	

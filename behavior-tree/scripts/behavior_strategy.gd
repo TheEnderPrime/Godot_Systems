@@ -6,24 +6,42 @@
 
 class IdleStrategy extends BehaviorStrategy:
 	var agent: CharacterBody2D
+	var idleTimer: Timer
 	
 	func _init (_agent: CharacterBody2D):
 		agent = _agent
+		idleTimer = Timer.new()
+		randomize_idle()
+		idleTimer.one_shot = false
+		idleTimer.name = "idleTimer"
+		idleTimer.timeout.connect(on_idle_timeout)
 		
 	func process() -> Behavior.behaviorState:
 		print("Idle Strategy")
+		
+		if not idleTimer.is_inside_tree():
+			agent.add_child(idleTimer)
+			idleTimer.start()
+			
 		if "direction" in agent:
 			agent.direction = Vector2.ZERO
 		agent.velocity = Vector2.ZERO
 		return Behavior.behaviorState.RUNNING
 
 	func reset() -> void:
-		pass
+		idleTimer.stop()
+		
+	func randomize_idle():
+		idleTimer.wait_time = randf_range(1, 3)
+		
+	func on_idle_timeout() -> Behavior.behaviorState:
+		print("IDLE BORED TIMEOUT")
+		randomize_idle()
+		return Behavior.behaviorState.SUCCESS
 
 class WanderStrategy extends BehaviorStrategy:
 	var moveDirection : Vector2
 	var moveSpeed : float
-	var wander_time : float
 	var agent: CharacterBody2D
 	var wanderTimer: Timer
 	
@@ -41,8 +59,6 @@ class WanderStrategy extends BehaviorStrategy:
 		if not wanderTimer.is_inside_tree():
 			agent.add_child(wanderTimer)
 			wanderTimer.start()
-		else: 
-			wanderTimer.start()
 			
 		if "direction" in agent:
 			agent.direction = moveDirection
@@ -55,7 +71,7 @@ class WanderStrategy extends BehaviorStrategy:
 		
 	func randomize_wander():
 		moveDirection = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
-		wanderTimer.wait_time = randf_range(5, 10)
+		wanderTimer.wait_time = randf_range(1, 3)
 		
 	func on_wander_timeout() -> Behavior.behaviorState:
 		print("WANDER TIMEOUT")

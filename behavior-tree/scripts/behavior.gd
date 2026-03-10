@@ -3,6 +3,7 @@ class_name Behavior extends Resource
 var name : String
 enum behaviorState { RUNNING, SUCCESS, FAILURE,}
 var children : Array
+var currentIndex:= 0
 
 func _init (_name : String = "defaultBehavior"):
 	self.name = _name
@@ -14,6 +15,7 @@ func process() -> behaviorState:
 	return behaviorState.SUCCESS
 
 func reset() -> void:
+	currentIndex = 0
 	for child : Behavior in children:
 		child.reset()
 
@@ -46,12 +48,16 @@ class SequenceBehavior extends Behavior:
 		
 	func process() -> behaviorState:
 		print(" - Enter Sequence (" + name + ") : " + (behaviorState.keys())[result])
-		for behavior: Behavior in sequence:
-			match behavior.process():
+		while currentIndex < sequence.size():
+		#for behavior: Behavior in sequence:
+			match sequence[currentIndex].process():
 				behaviorState.RUNNING:
 					return behaviorState.RUNNING
 				behaviorState.FAILURE:
+					reset()
 					return behaviorState.FAILURE
+				behaviorState.SUCCESS:
+					currentIndex += 1
 		reset()
 		return behaviorState.SUCCESS
 		
@@ -95,18 +101,21 @@ class SelectorBehavior extends Behavior:
 		
 	func process():
 		print(" - Enter Selector: " + name)
-		for behavior : Behavior in selection:
-			match behavior.process():
+		while currentIndex < selection.size():
+			match selection[currentIndex].process():
 				behaviorState.SUCCESS:
 					return behaviorState.SUCCESS
 				behaviorState.RUNNING:
 					return behaviorState.RUNNING
-		#reset()
+				behaviorState.FAILURE:
+					currentIndex += 1
+		reset()
 		return behaviorState.FAILURE
 
 # reorders selection randomly, then runs as SelectionBehavior
 class RandomSelectorBehavior extends SelectorBehavior:
 	var randomSelection : Array
+	var shuffled:= false
 	
 	func _init(_name: String, _selection : Array):
 		super(_name, _selection)
@@ -114,12 +123,23 @@ class RandomSelectorBehavior extends SelectorBehavior:
 		
 	func process():
 		print(" - Enter Random Selector: " + name)
-		for i : int in selection.size():
-			var random = selection.pick_random()
-			randomSelection.append(random)
-			selection.erase(random)
-		selection = randomSelection
-		return super()
+		
+		#for i : int in selection.size():
+		#	var random = selection.pick_random()
+		#	randomSelection.append(random)
+		#	selection.erase(random)
+		#selection = randomSelection
+		
+		if not shuffled:
+			print("SHUFFLE SHUFFLE SHUFFLE SHUFFLE SHUFFLE SHUFFLE")
+			selection.shuffle()
+			shuffled = true
+			
+		result = super.process()
+		
+		if result != behaviorState.RUNNING:
+			shuffled = false
+		return result
 
 # TODO add priority to all behaviors
 # sorts children based on behavior priority then runs as SelectionBehavior
