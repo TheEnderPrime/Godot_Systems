@@ -14,7 +14,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Finite_State_Machine"
+config/name="Utility_AI"
 run/main_scene="uid://bbwtg6r7fdhs1"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
