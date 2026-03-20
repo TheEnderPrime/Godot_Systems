@@ -133,8 +133,11 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1162163104]
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_s1ycm")
+<<<<<<< HEAD
 
 [node name="Blackboard" type="Node" parent="." unique_id=2015194823]
 script = ExtResource("3_5uy6h")
 
 [node name="UtilityAI" type="Node" parent="." unique_id=1344550425]
+=======
+>>>>>>> fa3e2e49e1e714fa698c543b841cf99fe9e79d81
