@@ -26,11 +26,11 @@ class UtilityAIAgent extends UtilityAI:
 
 	func get_highest_utility_action(actions: Array) -> UtilityAIAction:
 		var highest_utility_action: UtilityAIAction
-		var current_best_utility_score:= 0.0
+		var current_highest_utility_score:= 0.0
 		
 		for action in actions:
 			var actionScore = action.calculate_score()
-			if actionScore >= current_best_utility_score:
-				current_best_utility_score = actionScore
+			if actionScore >= current_highest_utility_score:
+				current_highest_utility_score = actionScore
 				highest_utility_action = action
 		return highest_utility_action

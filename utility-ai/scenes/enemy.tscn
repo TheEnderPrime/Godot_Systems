@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bx4uhcme4hvvs" path="res://scripts/enemy.gd" id="1_5uy6h"]
 [ext_resource type="Texture2D" uid="uid://de8lypqapcgdg" path="res://assets/slime_green.png" id="1_7p1mj"]
-[ext_resource type="Script" uid="uid://dm4vvjq0q5v8y" path="res://scripts/blackboard.gd" id="3_5uy6h"]
+[ext_resource type="Script" uid="uid://chv6vvtbhnkik" path="res://scripts/utility_ai/agent.gd" id="3_4ra3w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_md0e3"]
 atlas = ExtResource("1_7p1mj")
@@ -133,11 +133,6 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1162163104]
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_s1ycm")
-<<<<<<< HEAD
 
-[node name="Blackboard" type="Node" parent="." unique_id=2015194823]
-script = ExtResource("3_5uy6h")
-
-[node name="UtilityAI" type="Node" parent="." unique_id=1344550425]
-=======
->>>>>>> fa3e2e49e1e714fa698c543b841cf99fe9e79d81
+[node name="UtilityAI" type="Node" parent="." unique_id=1095810774]
+script = ExtResource("3_4ra3w")
